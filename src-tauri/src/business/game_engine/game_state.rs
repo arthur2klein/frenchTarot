@@ -3,8 +3,7 @@ use std::collections::HashSet;
 use rand::seq::SliceRandom;
 
 use super::{
-    card::{Card, Color},
-    player_game_state::PlayerGameState,
+    card::Card, engine_error::EngineError, player_game_state::PlayerGameState,
     shared_game_state::SharedGameState,
 };
 
@@ -24,46 +23,44 @@ impl GameState {
         }
     }
 
-    pub fn random_init() -> GameState {
+    pub fn random_init() -> Result<GameState, EngineError> {
         let mut rng = rand::rng();
-        let mut cards_num: Vec<usize> = (1..=78).collect();
-        cards_num.shuffle(&mut rng);
-        let mut cards: Vec<Card> = cards_num
-            .into_iter()
-            .map(|number| match number {
-                1..=14 => Card {
-                    color: Color::Spade,
-                    value: number as u8,
-                },
-                15..=28 => Card {
-                    color: Color::Club,
-                    value: (number - 14) as u8,
-                },
-                29..=42 => Card {
-                    color: Color::Heart,
-                    value: (number - 28) as u8,
-                },
-                43..=56 => Card {
-                    color: Color::Diamond,
-                    value: (number - 42) as u8,
-                },
-                57..=77 => Card {
-                    color: Color::Trump,
-                    value: (number - 56) as u8,
-                },
-                _ => Card {
-                    color: Color::Excuse,
-                    value: 0,
-                },
-            })
-            .collect();
+        let mut cards: Vec<Card> = Card::all_possibles().into_iter().collect();
+        cards.shuffle(&mut rng);
         let hands: [HashSet<Card>; 4] = [
             cards.drain(0..18).collect(),
             cards.drain(0..18).collect(),
             cards.drain(0..18).collect(),
             cards.drain(0..18).collect(),
         ];
-        let kitty: [Card; 6] = cards.drain(..).collect::<Vec<Card>>().try_into().unwrap();
-        Self::initialize(hands, kitty, rand::random_range(0..4))
+        let kitty: [Card; 6] = cards
+            .drain(..)
+            .collect::<Vec<Card>>()
+            .try_into()
+            .map_err(|_| EngineError::RustError(String::from("Could not unwrap")))?;
+        Ok(Self::initialize(hands, kitty, rand::random_range(0..4)))
+    }
+
+    pub fn play_card(&mut self, player_index: u8, card: &Card) -> Result<(), EngineError> {
+        let mut current_trick = self
+            .shared_state
+            .current_trick
+            .unwrap_or(self.shared_state.new_trick());
+        self.players_state[player_index as usize].play_a_card(
+            &mut current_trick,
+            player_index,
+            card,
+        )?;
+        if current_trick.next_to_play().is_none() {
+            self.shared_state.finish_trick()?;
+        }
+        Ok(())
+    }
+
+    pub fn cards_allowed(&self, player: u8) -> HashSet<&Card> {
+        self.shared_state
+            .current_trick
+            .map(|trick| self.players_state[player as usize].cards_allowed(&trick))
+            .unwrap_or(HashSet::new())
     }
 }

@@ -1,4 +1,4 @@
-use crate::{middlewares::logging, presentation::presentation_error::PresentationError};
+use crate::presentation::presentation_error::PresentationError;
 use clap::{command, Parser};
 
 #[derive(Parser, Debug)]

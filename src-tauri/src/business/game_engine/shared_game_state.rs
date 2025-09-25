@@ -1,4 +1,6 @@
-use std::fmt;
+use std::{collections::HashSet, fmt};
+
+use crate::business::Card;
 
 use super::{
     engine_error::EngineError,
@@ -46,7 +48,6 @@ impl SharedGameState {
     pub fn finish_trick(&mut self) -> Result<(), EngineError> {
         if let Some(trick) = self.current_trick {
             self.played_tricks.push(trick.into_played()?);
-            self.current_trick = Some(Trick::new(self.player_to_lead()));
             Ok(())
         } else {
             Err(EngineError::NotBegunHand)
@@ -93,5 +94,33 @@ impl SharedGameState {
         self.game_type
             .map(|game_type| game_type.kitty_should_be_revealed())
             .unwrap_or(false)
+    }
+
+    pub fn finished(&self) -> bool {
+        self.played_tricks.len() == 18
+    }
+
+    pub fn next_to_play(&self) -> Option<u8> {
+        (!self.finished()).then(|| {
+            self.current_trick
+                .map(|trick| trick.next_to_play())
+                .flatten()
+                .unwrap_or(self.player_to_lead())
+        })
+    }
+
+    pub fn new_trick(&mut self) -> Trick {
+        self.current_trick = Some(Trick::new(self.player_to_lead()));
+        self.current_trick.unwrap()
+    }
+
+    pub fn cards_left_to_play(&self) -> HashSet<Card> {
+        let mut all_cards = Card::all_possibles();
+        for trick in &self.played_tricks {
+            for card in trick.cards {
+                all_cards.remove(&card);
+            }
+        }
+        all_cards
     }
 }

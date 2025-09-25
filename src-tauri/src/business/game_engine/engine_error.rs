@@ -10,6 +10,7 @@ pub enum EngineError {
     HasToTrump,
     HasToOvertrump,
     FinishedHand,
+    RustError(String),
 }
 
 impl std::fmt::Display for EngineError {
@@ -44,6 +45,9 @@ impl std::fmt::Display for EngineError {
             }
             EngineError::HasToOvertrump => {
                 write!(f, "Player should have overtrumped but did not",)
+            }
+            EngineError::RustError(arg) => {
+                write!(f, "Rust error: {}", arg)
             }
         }
     }

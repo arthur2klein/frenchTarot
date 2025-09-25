@@ -1,5 +1,5 @@
 use super::engine_error::EngineError;
-use std::fmt;
+use std::{collections::HashSet, fmt};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Color {
@@ -84,6 +84,325 @@ impl Card {
             (color, _) if color == *lead_color => true,
             (_, _) => false,
         }
+    }
+
+    pub fn all_possibles() -> HashSet<Card> {
+        [
+            Card {
+                color: Color::Excuse,
+                value: 0,
+            },
+            Card {
+                color: Color::Diamond,
+                value: 1,
+            },
+            Card {
+                color: Color::Diamond,
+                value: 2,
+            },
+            Card {
+                color: Color::Diamond,
+                value: 3,
+            },
+            Card {
+                color: Color::Diamond,
+                value: 4,
+            },
+            Card {
+                color: Color::Diamond,
+                value: 5,
+            },
+            Card {
+                color: Color::Diamond,
+                value: 6,
+            },
+            Card {
+                color: Color::Diamond,
+                value: 7,
+            },
+            Card {
+                color: Color::Diamond,
+                value: 8,
+            },
+            Card {
+                color: Color::Diamond,
+                value: 9,
+            },
+            Card {
+                color: Color::Diamond,
+                value: 10,
+            },
+            Card {
+                color: Color::Diamond,
+                value: 11,
+            },
+            Card {
+                color: Color::Diamond,
+                value: 12,
+            },
+            Card {
+                color: Color::Diamond,
+                value: 13,
+            },
+            Card {
+                color: Color::Diamond,
+                value: 14,
+            },
+            Card {
+                color: Color::Spade,
+                value: 1,
+            },
+            Card {
+                color: Color::Spade,
+                value: 2,
+            },
+            Card {
+                color: Color::Spade,
+                value: 3,
+            },
+            Card {
+                color: Color::Spade,
+                value: 4,
+            },
+            Card {
+                color: Color::Spade,
+                value: 5,
+            },
+            Card {
+                color: Color::Spade,
+                value: 6,
+            },
+            Card {
+                color: Color::Spade,
+                value: 7,
+            },
+            Card {
+                color: Color::Spade,
+                value: 8,
+            },
+            Card {
+                color: Color::Spade,
+                value: 9,
+            },
+            Card {
+                color: Color::Spade,
+                value: 10,
+            },
+            Card {
+                color: Color::Spade,
+                value: 11,
+            },
+            Card {
+                color: Color::Spade,
+                value: 12,
+            },
+            Card {
+                color: Color::Spade,
+                value: 13,
+            },
+            Card {
+                color: Color::Spade,
+                value: 14,
+            },
+            Card {
+                color: Color::Club,
+                value: 1,
+            },
+            Card {
+                color: Color::Club,
+                value: 2,
+            },
+            Card {
+                color: Color::Club,
+                value: 3,
+            },
+            Card {
+                color: Color::Club,
+                value: 4,
+            },
+            Card {
+                color: Color::Club,
+                value: 5,
+            },
+            Card {
+                color: Color::Club,
+                value: 6,
+            },
+            Card {
+                color: Color::Club,
+                value: 7,
+            },
+            Card {
+                color: Color::Club,
+                value: 8,
+            },
+            Card {
+                color: Color::Club,
+                value: 9,
+            },
+            Card {
+                color: Color::Club,
+                value: 10,
+            },
+            Card {
+                color: Color::Club,
+                value: 11,
+            },
+            Card {
+                color: Color::Club,
+                value: 12,
+            },
+            Card {
+                color: Color::Club,
+                value: 13,
+            },
+            Card {
+                color: Color::Club,
+                value: 14,
+            },
+            Card {
+                color: Color::Heart,
+                value: 1,
+            },
+            Card {
+                color: Color::Heart,
+                value: 2,
+            },
+            Card {
+                color: Color::Heart,
+                value: 3,
+            },
+            Card {
+                color: Color::Heart,
+                value: 4,
+            },
+            Card {
+                color: Color::Heart,
+                value: 5,
+            },
+            Card {
+                color: Color::Heart,
+                value: 6,
+            },
+            Card {
+                color: Color::Heart,
+                value: 7,
+            },
+            Card {
+                color: Color::Heart,
+                value: 8,
+            },
+            Card {
+                color: Color::Heart,
+                value: 9,
+            },
+            Card {
+                color: Color::Heart,
+                value: 10,
+            },
+            Card {
+                color: Color::Heart,
+                value: 11,
+            },
+            Card {
+                color: Color::Heart,
+                value: 12,
+            },
+            Card {
+                color: Color::Heart,
+                value: 13,
+            },
+            Card {
+                color: Color::Heart,
+                value: 14,
+            },
+            Card {
+                color: Color::Trump,
+                value: 1,
+            },
+            Card {
+                color: Color::Trump,
+                value: 2,
+            },
+            Card {
+                color: Color::Trump,
+                value: 3,
+            },
+            Card {
+                color: Color::Trump,
+                value: 4,
+            },
+            Card {
+                color: Color::Trump,
+                value: 5,
+            },
+            Card {
+                color: Color::Trump,
+                value: 6,
+            },
+            Card {
+                color: Color::Trump,
+                value: 7,
+            },
+            Card {
+                color: Color::Trump,
+                value: 8,
+            },
+            Card {
+                color: Color::Trump,
+                value: 9,
+            },
+            Card {
+                color: Color::Trump,
+                value: 10,
+            },
+            Card {
+                color: Color::Trump,
+                value: 11,
+            },
+            Card {
+                color: Color::Trump,
+                value: 12,
+            },
+            Card {
+                color: Color::Trump,
+                value: 13,
+            },
+            Card {
+                color: Color::Trump,
+                value: 14,
+            },
+            Card {
+                color: Color::Trump,
+                value: 15,
+            },
+            Card {
+                color: Color::Trump,
+                value: 16,
+            },
+            Card {
+                color: Color::Trump,
+                value: 17,
+            },
+            Card {
+                color: Color::Trump,
+                value: 18,
+            },
+            Card {
+                color: Color::Trump,
+                value: 19,
+            },
+            Card {
+                color: Color::Trump,
+                value: 20,
+            },
+            Card {
+                color: Color::Trump,
+                value: 21,
+            },
+        ]
+        .into_iter()
+        .collect()
     }
 }
 

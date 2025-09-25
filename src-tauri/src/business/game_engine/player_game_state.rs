@@ -81,9 +81,9 @@ impl PlayerGameState {
             .any(|card| card.color == Color::Trump && card.value > highest_trump)
     }
 
-    pub fn chose_aside(&mut self, aside: [&Card; 6]) -> Result<(), EngineError> {
+    pub fn chose_aside(&mut self, aside: [Card; 6]) -> Result<(), EngineError> {
         for card in aside {
-            self.use_card(card)?;
+            self.use_card(&card)?;
         }
         Ok(())
     }

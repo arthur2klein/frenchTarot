@@ -40,7 +40,6 @@ fn count_points(state: &PlayerGameState, game_type: GameType) -> usize {
     );
     let mut total = 0;
     let mut has_petit = false;
-    let mut number_of_trumps = 0;
     let mut number_per_color = [0; 6];
     let mut has_honour = [[false; 4]; 4];
     let mut high_trumps = [false; 6];
@@ -87,7 +86,7 @@ fn count_points(state: &PlayerGameState, game_type: GameType) -> usize {
     // 0-9 points for the petit depending of the number of trumps to protect it
     if has_petit {
         total += match number_of_trumps {
-            1..3 => 0,
+            1..4 => 0,
             4 => 5,
             5 => 7,
             _ => 9,

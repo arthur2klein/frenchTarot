@@ -1,6 +1,9 @@
 #[derive(Debug)]
 pub enum AnalysisError {
     NoCardToPlay,
+    AnalysisFinished,
+    RustError(String),
+    Other(String),
 }
 
 impl std::fmt::Display for AnalysisError {
@@ -9,6 +12,13 @@ impl std::fmt::Display for AnalysisError {
             AnalysisError::NoCardToPlay => {
                 write!(f, "No card anymore",)
             }
+            AnalysisError::Other(arg) => {
+                write!(f, "Other: {}", arg)
+            }
+            AnalysisError::AnalysisFinished => {
+                write!(f, "Analysis already finished",)
+            }
+            AnalysisError::RustError(arg) => write!(f, "Rust error: {}", arg),
         }
     }
 }
