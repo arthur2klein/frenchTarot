@@ -11,9 +11,9 @@ pub struct MCTS {
 impl Player for MCTS {
     fn play_a_card(&mut self, game_state: &KnownGameState) -> Result<Card, AnalysisError> {
         mcts_search(
-            game_state.possible_random_full_state().map_err(|_| {
-                AnalysisError::Other(String::from("Could not generate random state"))
-            })?,
+            game_state
+                .possible_random_full_state()
+                .map_err(|e| AnalysisError::Engine(e))?,
             self.n_iterations,
             self.c_param,
         )

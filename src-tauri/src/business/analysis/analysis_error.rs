@@ -1,7 +1,10 @@
+use crate::business::game_engine::engine_error::EngineError;
+
 #[derive(Debug)]
 pub enum AnalysisError {
     NoCardToPlay,
     AnalysisFinished,
+    Engine(EngineError),
     RustError(String),
     Other(String),
 }
@@ -9,6 +12,9 @@ pub enum AnalysisError {
 impl std::fmt::Display for AnalysisError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            AnalysisError::Engine(value) => {
+                write!(f, "Got error with tarot game engine: {}", value)
+            }
             AnalysisError::NoCardToPlay => {
                 write!(f, "No card anymore",)
             }

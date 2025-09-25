@@ -26,17 +26,11 @@ impl Player for MonteCarlo {
                     .try_fold(
                         || 0,
                         |acc, _| {
-                            let mut full = known.possible_random_full_state().map_err(|_| {
-                                AnalysisError::Other(String::from(
-                                    "Can not generate a random full state",
-                                ))
-                            })?;
+                            let mut full = known
+                                .possible_random_full_state()
+                                .map_err(|e| AnalysisError::Engine(e))?;
                             full.play_card(known.player_index, &candidate)
-                                .map_err(|_| {
-                                    AnalysisError::Other(String::from(
-                                        "Can not generate play a card",
-                                    ))
-                                })?;
+                                .map_err(|e| AnalysisError::Engine(e))?;
                             let val: usize = simulate_random_playout(&mut full)?;
                             Ok(acc + val)
                         },

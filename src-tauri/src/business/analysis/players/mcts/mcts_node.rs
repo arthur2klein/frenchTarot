@@ -55,7 +55,7 @@ impl MCTSNode {
                             .unwrap_or((self.state.shared_state.dealer + 1) % 4),
                         card,
                     )
-                    .map_err(|_| AnalysisError::NoCardToPlay)?;
+                    .map_err(|e| AnalysisError::Engine(e))?;
                 return Ok((*card, MCTSNode::new(new_state)));
             }
         }
