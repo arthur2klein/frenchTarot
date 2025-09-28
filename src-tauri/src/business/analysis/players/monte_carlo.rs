@@ -27,7 +27,7 @@ impl Player for MonteCarlo {
                         || 0,
                         |acc, _| {
                             let mut full = known
-                                .possible_random_full_state()
+                                .possible_random_full_state_v2()
                                 .map_err(|e| AnalysisError::Engine(e))?;
                             full.play_card(known.player_index, &candidate)
                                 .map_err(|e| AnalysisError::Engine(e))?;

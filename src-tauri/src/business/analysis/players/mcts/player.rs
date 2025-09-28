@@ -12,7 +12,7 @@ impl Player for MCTS {
     fn play_a_card(&mut self, game_state: &KnownGameState) -> Result<Card, AnalysisError> {
         mcts_search(
             game_state
-                .possible_random_full_state()
+                .possible_random_full_state_v2()
                 .map_err(|e| AnalysisError::Engine(e))?,
             self.n_iterations,
             self.c_param,

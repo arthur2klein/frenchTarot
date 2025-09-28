@@ -5,7 +5,7 @@ use crate::business::Card;
 use super::{
     engine_error::EngineError,
     game_type::GameType,
-    handfuls::Handfuls,
+    handfuls::DeclaredHandfuls,
     trick::{PlayedTrick, Trick},
 };
 
@@ -16,7 +16,7 @@ pub struct SharedGameState {
     pub current_trick: Option<Trick>,
     pub played_tricks: Vec<PlayedTrick>,
     pub game_type: Option<GameType>,
-    pub declared_handfuls: [Option<Handfuls>; 4],
+    pub declared_handfuls: [Option<DeclaredHandfuls>; 4],
 }
 
 impl fmt::Display for SharedGameState {

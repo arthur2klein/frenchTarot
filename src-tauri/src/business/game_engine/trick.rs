@@ -9,6 +9,7 @@ use super::{
 pub struct PlayedTrick {
     pub cards: [Card; 4],
     pub winner: u8,
+    pub leader: u8,
 }
 
 impl PlayedTrick {
@@ -17,6 +18,35 @@ impl PlayedTrick {
             + self.cards[1].points()
             + self.cards[2].points()
             + self.cards[3].points()
+    }
+
+    pub fn color(&self) -> Color {
+        if self.cards[self.leader as usize].color != Color::Excuse {
+            self.cards[self.leader as usize].color
+        } else {
+            let next_player = (self.leader + 1) % 4;
+            self.cards[next_player as usize].color
+        }
+    }
+
+    pub fn did_not_have_color(&self, player: usize) -> bool {
+        let played_color = self.cards[player].color;
+        played_color != self.color() && played_color != Color::Excuse
+    }
+
+    pub fn did_not_have_trump_higher(&self, player: usize) -> Option<u8> {
+        let mut highest_trump = 0;
+        let mut current = self.leader as usize;
+        while current < player {
+            if self.cards[current].color == Color::Trump
+                && self.cards[current].value > highest_trump
+            {
+                highest_trump = self.cards[current].value;
+            }
+            current += 1;
+        }
+        (self.cards[player].color == Color::Trump && self.cards[player].value < highest_trump)
+            .then(|| highest_trump)
     }
 }
 
@@ -112,7 +142,11 @@ impl Trick {
             self.cards[3].ok_or(EngineError::UnfinishedHand)?,
         ];
         let winner: u8 = self.winner()?;
-        Ok(PlayedTrick { cards, winner })
+        Ok(PlayedTrick {
+            cards,
+            winner,
+            leader: self.leader,
+        })
     }
 
     pub fn play_card(&mut self, player: u8, card: &Card) -> Result<(), EngineError> {

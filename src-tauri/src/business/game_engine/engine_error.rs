@@ -11,6 +11,7 @@ pub enum EngineError {
     HasToOvertrump,
     FinishedHand,
     RustError(String),
+    HandGenerationNotPossible(String),
 }
 
 impl std::fmt::Display for EngineError {
@@ -48,6 +49,9 @@ impl std::fmt::Display for EngineError {
             }
             EngineError::RustError(arg) => {
                 write!(f, "Rust error: {}", arg)
+            }
+            EngineError::HandGenerationNotPossible(arg) => {
+                write!(f, "Could not generate a hand: {}", arg)
             }
         }
     }

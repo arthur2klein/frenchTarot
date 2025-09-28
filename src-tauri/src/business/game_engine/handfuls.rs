@@ -1,3 +1,7 @@
+use std::collections::HashSet;
+
+use crate::business::Card;
+
 #[derive(Debug, Clone, Copy)]
 pub enum Handfuls {
     Simple,
@@ -21,4 +25,10 @@ impl Handfuls {
             Handfuls::Triple => 15,
         }
     }
+}
+
+#[derive(Debug, Clone)]
+pub struct DeclaredHandfuls {
+    pub handful: Handfuls,
+    pub cards: HashSet<Card>,
 }
